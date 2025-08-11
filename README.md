@@ -1,87 +1,70 @@
+# ☀️🧺 Photovoltaik-gestützte Waschmaschinenstartprognose
 
-
-# Photovoltaik-gestützte Waschmaschinenstart-Vorhersage
-
-Dieses Programm dient zur Bestimmung des optimalen Zeitpunkts, um eine Waschmaschine mit Strom aus einer Photovoltaikanlage (PV-Anlage) zu betreiben.  
-Die Berechnungen basieren auf Sonnenstandsdaten, aktueller Bewölkung und diffuser Solarstrahlung, kombiniert mit einem KI-gestützten Algorithmus.
-
----
-
-## 1. Funktionsprinzip
-
-### Sonnenstand (Azimut)
-
-- **Grundlage:** optimale Ausrichtung der Sonne zur PV-Anlage.  
-- **Datenquelle:** [Sonnenverlauf.de](https://www.sonnenverlauf.de)  
-  → Im linken Panel unter „Sonnenrichtung“.  
-- **Algorithmus:** NREL’s Solar Position Algorithm (SPA)  
-  ([Dokumentation](https://www.nrel.gov/grid/solar-resource/solar-position.html))
-
-### Wetter- und Strahlungsdaten
-
-- **API:** Open-Meteo  
-- **Parameter:**  
-  - Bewölkungsgrad  
-  - Diffuse Solar Radiation (DHI) – Energiemenge, die pro m² durch die Atmosphäre gelangt.
-
-### Optimierungsalgorithmus
-
-- Nutzt alle Eingangsdaten, um den energetisch günstigsten Startzeitpunkt zu bestimmen.
+Dieses Programm ermittelt den **optimalen Startzeitpunkt** für eine Waschmaschine,  
+um den Betrieb möglichst vollständig mit Strom aus einer **Photovoltaikanlage (PV-Anlage)** zu decken.  
+Als Ergebnis wird der Zeitpunkt mit der voraussichtlich **maximal verfügbaren PV-Leistung** ausgegeben.
 
 ---
 
-## 2. Kompilierung
+## 📊 Grundlage der Berechnungen
+Die Berechnungen basieren auf:
+
+- 🌞 **Sonnenstandsdaten** (Azimut, Elevation), berechnet mit dem [Solar Position Algorithm (SPA) des NREL](https://midcdmz.nrel.gov/spa/)  
+- ☁️ **Bewölkungsdaten** und **DHI-Werte** (Diffuse Horizontal Irradiance) von [Open-Meteo](https://open-meteo.com/) (24h-Vorhersage)  
+- 🤖 **KI-gestützter Bewertungsalgorithmus**, entwickelt vom Autor *(nicht unter GPLv3, Weitergabe nur mit Zustimmung)*
+
+---
+
+## 📦 Voraussetzungen
+
+- 📚 `libcurl`  
+- 📚 `libpqxx`  
+- 🌐 Internetzugriff auf Wetterdaten
+
+---
+
+## 🛠️ Kompilieren
+Das Programm **sunnyload** kann durch einfaches Ausführen von:
 
 ```bash
-# Einzelne Quellcode-Dateien kompilieren
-g++ -g -O3 -fPIC -Wall -std=c++20 -c -o main.o main.cpp
-g++ -g -O3 -fPIC -Wall -std=c++20 -c -o sonnen_position.o sonnen_position.cpp
-g++ -g -O3 -fPIC -Wall -std=c++20 -c -o spa.o spa.c
-g++ -g -O3 -fPIC -Wall -std=c++20 -c -o wetter_daten.o wetter_daten.cpp
-g++ -g -O3 -fPIC -Wall -std=c++20 -c -o photovoltaic_forecast.o photovoltaic_forecast.cpp
-
-# Signatur prüfen (optional)
-openssl pkeyutl -verify -pubin -inkey scoring_pub_key.pem -rawin \
-  -in scoring.o -sigfile scoring.o.sig
-
+make
 ```
----
+kompiliert werden.
 
-## 3. Linken
+Getestet unter:
+
+    🐧 g++ (GCC) 15.1.1 auf Kernel Linux 6.14.6-300.x86_64
+    🍓 g++ (Raspbian 12.2.0-14+rpi1) 12.2.0 auf Kernel Linux 6.6.74+rpt-rpi-v7
+
+▶️ Ausführung
 
 ```bash
-g++ -O2 -flto -fPIC -Wall -o vorhersage \
-  main.o sonnen_position.o spa.o wetter_daten.o photovoltaic_forecast.o scoring.o \
-  -lm -lcurl
+./sunnyload <Jahr> <Monat> <Tag> <Längengrad> <Breitengrad> <Azimut>
+./sunnyload 2025 12 21 13.37532 52.51860 244.46
+./sunnyload $(date -d "today" +"%Y %m %d") 13.37532 52.51860 244.46
 ```
 
----
+📍 Tipp:
+Längen- und Breitengrad sowie Azimut können z. B. über
+https://www.sonnenverlauf.de ermittelt werden.
 
-## 4. Ausführen
-```bash
-./vorhersage <Jahr> <Monat> <Tag> <Longitude> <Latitude> <Sonnen-Azimut>
-```
-### Beispiele:
- Festes Datum
-./vorhersage 2025 12 21 13.37532 52.51860 270.62
 
- Aktuelles Datum automatisch einfügen
-./vorhersage $(date -d "today" +"%Y %m %d") 13.37532 52.51860 270.62
+📌 Geplante Erweiterungen (ToDo)
 
----
+    💰 Einbindung aktueller Strompreisdaten
 
-## 5. Geplante Erweiterungen (To-Do)
+    📈 Berücksichtigung historischer Verbrauchsdaten des Haushalts
 
-    Einbezug aktueller Strompreise
+    🔋 Einbezug des Batteriestands der PV-Anlage
 
-    Historische Hauslastdaten berücksichtigen
+    🌅 Integration von Sonnenauf- und -untergangszeiten
 
-    Batteriestand der PV-Anlage einfließen lassen
+    🗄️ Speicherung sämtlicher Daten in einer Datenbank
 
-    Sonnenauf- und -untergangszeiten einbeziehen
+    🖥️ Entwicklung einer Qt-basierten GUI für Linux
 
-    Speicherung aller Daten in einer Datenbank
+    📊 Datenaufbereitung für Grafana
 
-    QT-GUI für Linux entwickeln
 
-    Daten für Grafana aufbereiten
+
+

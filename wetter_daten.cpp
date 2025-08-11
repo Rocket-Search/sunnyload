@@ -29,13 +29,7 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
     return size * nmemb;
 }
 
-/*
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {
-    size_t total_size = size * nmemb;
-    output->append((char*)contents, total_size);
-    return total_size;
-}
-*/
+
 void wetter_daten()
 
 
@@ -138,29 +132,6 @@ void wetter_daten()
 			
 		}
 
-/*		
-		http_rueckgabe = http_rueckgabe.substr(wo_ist_description,http_rueckgabe.length());
-		
-	
-		
-		wo_ist_icon = http_rueckgabe.find("wind");
-		
-		description_1 = http_rueckgabe.substr(0,wo_ist_icon);
-		
-		
-		
-		
-		wo_ist_doppelpunkt = description_1.rfind(":");
-		bewolkung = description_1.substr(wo_ist_doppelpunkt + 1 , description_1.length());
-		
-		wo_ist_klammer = bewolkung.find("}");
-		bewolkung = bewolkung.substr(0 , wo_ist_klammer);
-		
-		bewolkung_vec.push_back(bewolkung);
-		
-		
-		http_rueckgabe = http_rueckgabe.substr(wo_ist_icon + 4,http_rueckgabe.length());
-*/		
 
 
 	

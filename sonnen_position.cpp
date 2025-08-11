@@ -24,6 +24,7 @@ extern string azimut_uhrzeit;
 
 void sonnen_position()
 
+
 {
 
 
@@ -32,6 +33,7 @@ void sonnen_position()
 
 
 	spa.year = jahr;
+
 
 	spa.month = monat;
 
@@ -47,16 +49,16 @@ void sonnen_position()
 
 	spa.longitude   = longitude;
 
+
 	spa.latitude    = latitude;
 
-	spa.elevation   = 100.0;
-	spa.pressure    = 1003.25;
+	spa.elevation   = 50.0;
+	spa.pressure    = 1013.25;
 	spa.temperature = 20.0;
 	spa.slope       = 0.0;
 	spa.azm_rotation = 0.0;
 	spa.atmos_refract = 0.5667;
 	spa.function    = SPA_ZA;
-
 
     for (int hour = 0; hour <= 24; ++hour) 
     {
@@ -73,9 +75,11 @@ void sonnen_position()
                 if (fabs(spa.azimuth - azimut_soll) < 0.2) 
                 {
 
+
                     azimut_uhrzeit = to_string(hour) + ":" + to_string(minute);
 
                     azimut_ist = spa.azimuth;
+
 
 					break;
                 }

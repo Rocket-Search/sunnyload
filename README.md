@@ -12,7 +12,7 @@ Die Berechnungen basieren auf:
 - 🌞 **Sonnenstandsdaten** (Azimut, Elevation), berechnet mit dem [Solar Position Algorithm (SPA) des NREL](https://midcdmz.nrel.gov/spa/)  
 - ☁️ **Bewölkungsdaten** und **DHI-Werte** (Diffuse Horizontal Irradiance) von [Open-Meteo](https://open-meteo.com/) (24h-Vorhersage)  
 - 🤖 **KI-gestützter Bewertungsalgorithmus**, entwickelt vom Autor *(nicht unter GPLv3, Weitergabe nur mit Zustimmung)*
-
+- 🤖 **Darüber hinaus erfolgt eine Abfrage der Groq-KI online, um weitere Werte zu beziehen.**, entwickelt vom Autor *(nicht unter GPLv3, Weitergabe nur mit Zustimmung)*
 ---
 
 ## 📦 Voraussetzungen
@@ -20,7 +20,7 @@ Die Berechnungen basieren auf:
 - 📚 `libcurl`  
 - 📚 `libpqxx`  
 - 🌐 Internetzugriff auf Wetterdaten
-
+- 🖥️ x86_64 CPU (Object Files wurden unter x86_64 vorkompiliert) . Für andere Architekturen bitte Anfragen.
 ---
 
 ## 🛠️ Kompilieren
